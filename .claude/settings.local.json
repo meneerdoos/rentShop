@@ -7,7 +7,11 @@
       "Bash(git add *)",
       "Bash(git commit *)",
       "Bash(git config *)",
-      "Bash(npx vitest *)"
+      "Bash(npx vitest *)",
+      "Bash(mkdir -p \"C:/Users/vierkant/Documents/freelance/src/app/[locale]/verhuur/[slug]\")",
+      "Bash(mkdir -p \"C:/Users/vierkant/Documents/freelance/src/app/[locale]/winkelwagen\")",
+      "Bash(mkdir -p \"C:/Users/vierkant/Documents/freelance/src/app/[locale]/afrekenen\")",
+      "Bash(mkdir -p \"C:/Users/vierkant/Documents/freelance/src/app/[locale]/bevestiging\")"
     ]
   }
 }
