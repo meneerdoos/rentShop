@@ -17,7 +17,7 @@ export function ShoppableEvent({ event: ev, usedArticles, locale }: {
 
   function handleAdd(article: Article) {
     const cart = getCart()
-    if (!cart.startDate || !cart.endDate) {
+    if (!cart || !cart.startDate || !cart.endDate) {
       window.location.href = `${catalogPath}/${article.id}`
       return
     }

@@ -17,7 +17,7 @@ export function SiteNav({ locale }: { locale: string }) {
 
   useEffect(() => {
     function update() {
-      setCartCount(getCart().items.length)
+      setCartCount(getCart()?.items?.length ?? 0)
     }
     update()
     window.addEventListener('storage', update)

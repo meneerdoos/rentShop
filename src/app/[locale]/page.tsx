@@ -17,11 +17,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const supabase = createServerSupabaseClient()
   const nl = locale === 'nl'
 
-  const [{ data: categories }, { data: featured }, { data: events }] = await Promise.all([
+  const [{ data: categories }, { data: featured }] = await Promise.all([
     supabase.from('categories').select('*').order('sort_order'),
     supabase.from('articles').select('*').eq('active', true).limit(4),
-    supabase.from('events').select('*').order('created_at', { ascending: false }).limit(2),
   ])
+  // events table may not exist yet — fail gracefully
+  const { data: events } = await supabase
+    .from('events')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(2)
 
   const catalogPath = nl ? `/${locale}/verhuur` : `/${locale}/rental`
   const storiesPath = nl ? `/${locale}/verhalen` : `/${locale}/stories`
