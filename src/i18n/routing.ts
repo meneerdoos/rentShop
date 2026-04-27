@@ -10,5 +10,7 @@ export const routing = defineRouting({
     '/winkelwagen': { nl: '/winkelwagen', en: '/cart' },
     '/afrekenen': { nl: '/afrekenen', en: '/checkout' },
     '/bevestiging': { nl: '/bevestiging', en: '/confirmation' },
+    '/verhalen': { nl: '/verhalen', en: '/stories' },
+    '/verhalen/[id]': { nl: '/verhalen/[id]', en: '/stories/[id]' },
   },
 })

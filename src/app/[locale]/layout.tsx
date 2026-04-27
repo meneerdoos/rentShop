@@ -1,7 +1,24 @@
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, getTranslations } from 'next-intl/server'
-import Link from 'next/link'
+import { getMessages } from 'next-intl/server'
+import { Cormorant_Garamond, Outfit } from 'next/font/google'
 import { routing } from '@/i18n/routing'
+import { ThemeProvider } from '@/contexts/ThemeContext'
+import { SiteNav } from '@/components/layout/SiteNav'
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-cormorant',
+  display: 'swap',
+})
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-outfit',
+  display: 'swap',
+})
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }))
@@ -16,35 +33,40 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params
   const messages = await getMessages()
-  const t = await getTranslations('nav')
-
-  const catalogPath = locale === 'nl' ? `/${locale}/verhuur` : `/${locale}/rental`
-  const cartPath = locale === 'nl' ? `/${locale}/winkelwagen` : `/${locale}/cart`
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <header className="border-b-4 border-black">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href={`/${locale}`} className="text-xl font-black tracking-tight">
-            VERHUUR<span className="text-brand">/</span>
-          </Link>
-          <nav className="flex items-center gap-8 text-sm font-black uppercase tracking-widest">
-            <Link href={catalogPath} className="hover:text-brand transition-colors">
-              {t('catalog')}
-            </Link>
-            <Link href={cartPath} className="hover:text-brand transition-colors">
-              {t('cart')}
-            </Link>
-            <Link
-              href={locale === 'nl' ? '/en' : '/nl'}
-              className="border-2 border-black px-3 py-1 hover:bg-black hover:text-white transition-colors"
+      <ThemeProvider>
+        <div className={`${cormorant.variable} ${outfit.variable} min-h-screen bg-th-bg`}>
+          <SiteNav locale={locale} />
+          <main>{children}</main>
+          <footer
+            style={{
+              borderTop: '1px solid var(--border)',
+              padding: '36px 80px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              background: 'var(--bg)',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-cormorant), Georgia, serif',
+                fontWeight: 600,
+                fontSize: 16,
+                color: 'var(--text)',
+                letterSpacing: '0.06em',
+              }}
             >
-              {t('lang')}
-            </Link>
-          </nav>
+              KERKHOFS <em style={{ fontWeight: 300 }}>deco &amp; rent</em>
+            </span>
+            <span style={{ fontFamily: 'var(--font-outfit)', fontSize: 12, color: 'var(--text-muted)' }}>
+              © 2026 · Antwerp, Belgium
+            </span>
+          </footer>
         </div>
-      </header>
-      <main>{children}</main>
+      </ThemeProvider>
     </NextIntlClientProvider>
   )
 }

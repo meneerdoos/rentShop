@@ -8,6 +8,7 @@ const links = [
   { href: '/admin/artikelen', label: 'Artikelen' },
   { href: '/admin/categorieen', label: 'Categorieën' },
   { href: '/admin/bestellingen', label: 'Bestellingen' },
+  { href: '/admin/verhalen', label: 'Verhalen' },
 ]
 
 export function NavBar() {

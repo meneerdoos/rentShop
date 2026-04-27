@@ -32,6 +32,19 @@ export interface Order {
   created_at: string
 }
 
+export interface Event {
+  id: string
+  customer_name: string
+  event_type: string
+  event_date: string
+  location: string
+  quote: string
+  image_url: string | null
+  item_ids: string[]
+  hotspots: Array<{ x: number; y: number; itemId: string }>
+  created_at: string
+}
+
 export interface OrderItem {
   id: string
   order_id: string

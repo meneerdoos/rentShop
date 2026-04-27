@@ -2,11 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-white text-black;
-  }
-  h1, h2, h3 {
-    @apply font-black tracking-tight;
-  }
+/* ── THEME VARIABLES ──────────────────────────────────────────────────────── */
+:root, [data-theme="light"] {
+  --bg: #f6f4f0;
+  --bg-card: #ffffff;
+  --bg-subtle: #ede9e3;
+  --bg-input: #ffffff;
+  --border: rgba(20,17,12,0.10);
+  --text: #18150f;
+  --text-muted: rgba(20,17,12,0.42);
+  --accent: oklch(56% 0.18 28);
+  --accent-hover: oklch(50% 0.18 28);
+  --accent-text: #ffffff;
 }
+
+[data-theme="dark"] {
+  --bg: #0d0b09;
+  --bg-card: #181410;
+  --bg-subtle: #141210;
+  --bg-input: #1e1a15;
+  --border: rgba(245,237,220,0.08);
+  --text: #f4ecd8;
+  --text-muted: rgba(244,236,216,0.45);
+  --accent: oklch(72% 0.11 72);
+  --accent-hover: oklch(66% 0.11 72);
+  --accent-text: #1a1100;
+}
+
+[data-theme="warm"] {
+  --bg: #f0e8d8;
+  --bg-card: #f8f2e6;
+  --bg-subtle: #e6dcc8;
+  --bg-input: #f8f2e6;
+  --border: rgba(44,28,8,0.12);
+  --text: #2c1c08;
+  --text-muted: rgba(44,28,8,0.42);
+  --accent: oklch(53% 0.14 42);
+  --accent-hover: oklch(47% 0.14 42);
+  --accent-text: #fff8f0;
+}
+
+/* ── BASE ─────────────────────────────────────────────────────────────────── */
+html {
+  background: var(--bg);
+  transition: background 0.4s;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  transition: background 0.4s, color 0.4s;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.4); opacity: 0.1; }
+}
+
+/* ── SCROLLBAR ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.25); border-radius: 3px; }
+
+input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.4; cursor: pointer; }
