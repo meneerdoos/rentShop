@@ -1,0 +1,52 @@
+{
+  "nav": {
+    "catalog": "Rental",
+    "cart": "Cart",
+    "lang": "NL"
+  },
+  "home": {
+    "hero": "Rental for every event",
+    "heroCta": "Browse our catalog",
+    "howTitle": "How does it work?",
+    "step1": "Browse our catalog",
+    "step2": "Choose your rental period",
+    "step3": "Pay securely online"
+  },
+  "catalog": {
+    "title": "Rental",
+    "all": "All",
+    "pickDates": "Pick dates"
+  },
+  "detail": {
+    "perDay": "/ day",
+    "addToCart": "Add to cart",
+    "subtotal": "Subtotal",
+    "available": "Available"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "remove": "Remove",
+    "total": "Total",
+    "checkout": "Checkout",
+    "period": "Rental period",
+    "days": "days"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "name": "Full name",
+    "email": "Email address",
+    "phone": "Phone number",
+    "pay": "Pay now",
+    "summary": "Order summary"
+  },
+  "confirmation": {
+    "title": "Booking confirmed!",
+    "ref": "Reference",
+    "email": "A confirmation has been sent to your email.",
+    "back": "Back to catalog"
+  },
+  "errors": {
+    "outOfStock": "Not enough stock available for the selected period. Please update your cart."
+  }
+}

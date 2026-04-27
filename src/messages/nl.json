@@ -1,0 +1,52 @@
+{
+  "nav": {
+    "catalog": "Verhuur",
+    "cart": "Winkelwagen",
+    "lang": "EN"
+  },
+  "home": {
+    "hero": "Verhuur voor elk evenement",
+    "heroCta": "Bekijk het aanbod",
+    "howTitle": "Hoe werkt het?",
+    "step1": "Blader door ons aanbod",
+    "step2": "Kies uw huurperiode",
+    "step3": "Betaal veilig online"
+  },
+  "catalog": {
+    "title": "Verhuur",
+    "all": "Alles",
+    "pickDates": "Kies datums"
+  },
+  "detail": {
+    "perDay": "/ dag",
+    "addToCart": "In winkelwagen",
+    "subtotal": "Subtotaal",
+    "available": "Beschikbaar"
+  },
+  "cart": {
+    "title": "Winkelwagen",
+    "empty": "Uw winkelwagen is leeg.",
+    "remove": "Verwijderen",
+    "total": "Totaal",
+    "checkout": "Afrekenen",
+    "period": "Huurperiode",
+    "days": "dagen"
+  },
+  "checkout": {
+    "title": "Afrekenen",
+    "name": "Naam",
+    "email": "E-mailadres",
+    "phone": "Telefoonnummer",
+    "pay": "Betalen",
+    "summary": "Overzicht"
+  },
+  "confirmation": {
+    "title": "Boeking bevestigd!",
+    "ref": "Referentie",
+    "email": "U ontvangt een bevestiging per e-mail.",
+    "back": "Terug naar het aanbod"
+  },
+  "errors": {
+    "outOfStock": "Niet genoeg voorraad beschikbaar voor de gekozen periode. Pas uw winkelwagen aan."
+  }
+}
