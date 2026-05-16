@@ -1,28 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getStripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase/server'
 import { calculateDays } from '@/lib/availability'
+import { getStripe } from '@/lib/stripe'
 
-interface OrderItem {
+interface BookingItem {
   articleId: string
   quantity: number
   pricePerDay: number
 }
 
 export async function POST(req: NextRequest) {
-  const { customerName, customerEmail, customerPhone, items, startDate, endDate, locale } =
-    await req.json() as {
-      customerName: string
-      customerEmail: string
-      customerPhone: string
-      items: OrderItem[]
-      startDate: string
-      endDate: string
-      locale: string
-    }
+  const {
+    customerName, customerEmail, customerPhone,
+    deliveryAddress, deliveryCity, eventDate, notes,
+    items, startDate, endDate, locale = 'nl'
+  } = await req.json() as {
+    customerName: string
+    customerEmail: string
+    customerPhone: string
+    deliveryAddress: string
+    deliveryCity: string
+    eventDate: string
+    notes: string
+    items: BookingItem[]
+    startDate: string
+    endDate: string
+    locale?: string
+  }
 
   const supabase = createServiceClient()
 
+  // 1. Check availability
   for (const item of items) {
     const { data: available } = await supabase.rpc('get_available_quantity', {
       p_article_id: item.articleId,
@@ -37,12 +45,14 @@ export async function POST(req: NextRequest) {
   const days = calculateDays(startDate, endDate)
   const totalPrice = items.reduce((sum, i) => sum + i.pricePerDay * i.quantity * days, 0)
 
-  const paymentIntent = await getStripe().paymentIntents.create({
-    amount: Math.round(totalPrice * 100),
-    currency: 'eur',
-    metadata: { customerEmail, locale },
-  })
+  const deliveryNote = [
+    deliveryAddress && `Adres: ${deliveryAddress}`,
+    deliveryCity && `Stad: ${deliveryCity}`,
+    eventDate && `Evenementdatum: ${eventDate}`,
+    notes,
+  ].filter(Boolean).join('\n')
 
+  // 2. Create order in pending_payment state
   const { data: order, error } = await supabase
     .from('orders')
     .insert({
@@ -52,14 +62,15 @@ export async function POST(req: NextRequest) {
       start_date: startDate,
       end_date: endDate,
       total_price: totalPrice,
-      stripe_payment_id: paymentIntent.id,
       status: 'pending_payment',
+      notes: deliveryNote,
     })
     .select()
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  // 3. Insert order items
   await supabase.from('order_items').insert(
     items.map(i => ({
       order_id: order.id,
@@ -69,5 +80,24 @@ export async function POST(req: NextRequest) {
     }))
   )
 
-  return NextResponse.json({ orderId: order.id, clientSecret: paymentIntent.client_secret })
+  // 4. Create Stripe PaymentIntent
+  const paymentIntent = await getStripe().paymentIntents.create({
+    amount: Math.round(totalPrice * 100),
+    currency: 'eur',
+    metadata: {
+      orderId: order.id,
+      locale,
+    },
+  })
+
+  // 5. Update order with Stripe Payment ID
+  await supabase
+    .from('orders')
+    .update({ stripe_payment_id: paymentIntent.id })
+    .eq('id', order.id)
+
+  return NextResponse.json({ 
+    orderId: order.id,
+    clientSecret: paymentIntent.client_secret 
+  })
 }
